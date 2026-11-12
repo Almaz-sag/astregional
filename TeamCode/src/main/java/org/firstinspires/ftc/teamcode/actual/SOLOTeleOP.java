@@ -32,9 +32,9 @@ public class SOLOTeleOP extends LinearOpMode {
     LimeLightHelper limelight;
 
     // ===== LAUNCHER PID =====
-    public static double kP = 0.007;
-    public static double kI = 0.0012;
-    public static double kD = 0.000000001;
+    public static double kP = 0.005;
+    public static double kI = 0.001125;
+    public static double kD = 0.000000000000001;
 
     private double integral = 0, lastError = 0;
     private long lastTime = 0;
@@ -58,26 +58,75 @@ public class SOLOTeleOP extends LinearOpMode {
     public static double turmin = 0.0;
     public static double turmax = 1.0;
 
-    public static double lgoalX = 58;
+    public static double lgoalX = 57;
     public static double lgoalY = 92;
 
-    public static double rgoalX = 58;
+    public static double rgoalX = 57;
     public static double rgoalY = 52;
 
     public static double goalX;
     public static double goalY;
-    public static double d1 = 25;
-    public static double d2 = 35;
-    public static double d3 = 45;
-    public static double d4 = 55;
-    public static double d5 = 65;
+    public static double d1 = 20;
+    public static double d2 = 22.5;
+    public static double d3 = 25;
+    public static double d4 = 27.5;
+    public static double d5 = 30;
+    public static double d6 = 32.5;
+    public static double d7 = 35;
+    public static double d8 = 37.5;
+    public static double d9 = 40;
+    public static double d10 = 42.5;
+    public static double d11 = 45;
+    public static double d12 = 47.5;
+    public static double d13 = 50;
+    public static double d14 = 52.5;
+    public static double d15 = 55;
+    public static double d16 = 57.5;
+    public static double d17 = 60;
+    public static double d18 = 62.5;
+    public static double d19 = 65;
+    public static double d20 = 67.5;
+    public static double d21 = 70;
+    public static double d22 = 72.5;
+    public static double d23 = 75;
+    public static double d24 = 77.5;
+    public static double d25 = 80;
+    public static double d26 = 82.5;
+    public static double d27 = 85;
+    public static double d28 = 87.5;
+    public static double d29 = 90;
 
 
-    public static double v1 = 1490;
+
+    public static double v1 = 1475;
     public static double v2 = 1500;
     public static double v3 = 1515;
-    public static double v4 = 1530;
-    public static double v5 = 1575;
+    public static double v4 = 1520;
+    public static double v5 = 1525;
+    public static double v6 = 1530;
+    public static double v7 = 1535;
+    public static double v8 = 1540;
+    public static double v9 = 1545;
+    public static double v10 = 1550;
+    public static double v11 = 1555;
+    public static double v12 = 1560;
+    public static double v13 = 1565;
+    public static double v14 = 1570;
+    public static double v15 = 1575;
+    public static double v16 = 1580;
+    public static double v17 = 1585;
+    public static double v18 = 1590;
+    public static double v19 = 1595;
+    public static double v20 = 1600;
+    public static double v21 = 1605;
+    public static double v22 = 1610;
+    public static double v23 = 1615;
+    public static double v24 = 1620;
+    public static double v25 = 1625;
+    public static double v26 = 1630;
+    public static double v27 = 1635;
+    public static double v28 = 1640;
+    public static double v29 = 1645;
     public static int LEFT_TAG = 35;
     public static int RIGHT_TAG = 32;
     public int AIM;
@@ -105,11 +154,21 @@ public class SOLOTeleOP extends LinearOpMode {
     public double getVelocityFromTable(double distance) {
 
         double[] distances = {
-                d1, d2, d3, d4, d5
+                d1, d2, d3, d4, d5,
+                d6, d7, d8, d9, d10,
+                d11, d12, d13, d14, d15,
+                d16, d17, d18, d19, d20,
+                d21, d22, d23, d24, d25,
+                d26, d27, d28, d29
         };
 
         double[] velocities = {
-                v1, v2, v3, v4, v5
+                v1, v2, v3, v4, v5,
+                v6, v7, v8, v9, v10,
+                v11, v12, v13, v14, v15,
+                v16, v17, v18, v19, v20,
+                v21, v22, v23, v24, v25,
+                v26, v27, v28, v29
         };
 
         // ниже минимума
@@ -212,7 +271,7 @@ public class SOLOTeleOP extends LinearOpMode {
 
         double forward = -gamepad1.left_stick_y;
         double strafe = gamepad1.left_stick_x;
-        double rotate = gamepad1.right_stick_x * 0.85;
+        double rotate = gamepad1.right_stick_x * 0.7;
 
         double heading =
                 pinpoint.getPosition().getHeading(AngleUnit.RADIANS);
@@ -403,6 +462,16 @@ public class SOLOTeleOP extends LinearOpMode {
             double robotY =
                     pos.getY(DistanceUnit.INCH);
 
+            if (robotY > 72) {
+                AIM = LEFT_TAG;
+                goalX = lgoalX;
+                goalY = lgoalY;
+            } else if (robotY < 72) {
+                AIM = RIGHT_TAG;
+                goalX = rgoalX;
+                goalY = rgoalY;
+            }
+
             double cos =
                     Math.cos(pos.getHeading(AngleUnit.RADIANS));
 
@@ -465,17 +534,22 @@ public class SOLOTeleOP extends LinearOpMode {
                 pinpoint.setPosition(reset2);
             }
 
+            if (gamepad1.dpad_down) {
+
+                Pose2D reset3 =
+                        new Pose2D(
+                                DistanceUnit.INCH,
+                                6.5,
+                                58.9,
+                                AngleUnit.DEGREES,
+                                0
+                        );
+
+                pinpoint.setPosition(reset3);
+            }
+
             targetVelocity = getVelocityFromTable(distance);
 
-            if (robotY > 72) {
-                AIM = LEFT_TAG;
-                goalX = lgoalX;
-                goalY = lgoalY;
-            } else if (robotY < 72) {
-                AIM = RIGHT_TAG;
-                goalX = rgoalX;
-                goalY = rgoalY;
-            }
 
             if(track){
                 updateTurret();
